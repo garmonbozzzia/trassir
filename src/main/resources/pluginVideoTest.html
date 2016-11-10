@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Video example</title>
+    <script type="text/javascript" src="vxgplayer-1.8.11.min.js"></script>
+    <link href="vxgplayer-1.8.11.min.css" rel="stylesheet"/>
+</head>
+<body>
+<div class="vxgplayer"
+     id="vxg_media_player1"
+     width="640"
+     height="480"
+     url="rtsp://admin:admin12345@192.168.7.51:554/Streaming/Channels/101?transportmode=unicast&profile=Profile_1"
+     nmf-src="pnacl/Release/media_player.nmf"
+     nmf-path="media_player.nmf"
+     useragent-prefix="MMP/3.0"
+     latency="10000"
+     autohide="2"
+     volume="0.7"
+     avsync
+     mute
+     aspect-ratio
+     aspect-ratio-mode="1"
+     auto-reconnect="1"
+     connection-timeout="5000"
+     connection-udp="0"
+     autostart
+     custom-digital-zoom></div>
+</body>
+</html>

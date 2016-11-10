@@ -1,0 +1,55 @@
+https://localhost:8080/objects/operatorgui_s1C7srpZ/show?sid=IYmolkoG&monitor_n=1&channel_or_template=DS-2CD2622F-IS%201
+https://localhost:8080/objects/?sid=XXX
+https://localhost:8080/login/?password=123
+
+  println(parse(
+    """
+      |{
+      |	"possible_states_vector" : [
+      |		{
+      |			"name" : "signal",
+      |			"values" : [
+      |				"No Signal",
+      |				"Signal"
+      |			]
+      |		}
+      |	],
+      |	"methods" : [
+      |		{
+      |			"name" : "record",
+      |			"parameters" : [
+      |				{
+      |					"name" : "turn_on_record",
+      |					"type" : "integer"
+      |				}
+      |			]
+      |		}
+      |	],
+      |	"events" : [
+      |		{
+      |			"name" : "Signal Lost",
+      |			"parameters" : [ "", "", "" ]
+      |		}
+      |  ]
+      |}
+    """.stripMargin).extract[Class])
+
+
+:sout=#transcode{vcodec=h264,vb=1500,width=1280,height=720,acodec=mp3,ab=192,channels=2,samplerate=44100}:duplicate{dst=http{mux=ffmpeg{mux=flv},dst=:8080/},dst=display} :sout-keep
+
+:sout=#transcode{vcodec=mp4v,scale=автоматически,acodec=mpga,ab=128,channels=2,samplerate=44100}:http{mux=mpjpeg,dst=:8080/stream} :sout-all :sout-keep
+
+:sout=#transcode{vcodec=theo,vb=800,scale=1,width=640,height=480,acodec=none}:duplicate{dst=http{mux=ogg,dst=:8080/stream},dst=display} :sout-keep
+работает
+
+:sout=#transcode{vcodec=theo,vb=800,scale=1,acodec=none}:http{mux=ogg,dst=:8080/124} :sout-keep
+:sout=#transcode{vcodec=theo,vb=800,scale=1,acodec=none}:http{mux=ogg,dst=:8080/124} :sout-keep
+
+vlc rtsp://admin:admin12345@192.168.7.51:554/Streaming/Channels/101?transportmode=unicast&profile=Profile_1 :network-caching=1000 :sout=#transcode{vcodec=theo,vb=800,scale=1,acodec=none}:http{mux=ogg,dst=:8080/124} :sout-keep
+
+
+vlc  --network-caching=1000 --sout='#transcode{vcodec=theo,vb=800,scale=1,acodec=none}:http{mux=ogg,dst=:8080/124}' --sout-keep rtsp://admin:admin12345@192.168.7.51:554/Streaming/Channels/101?transportmode=unicast&profile=Profile_1
+
+vlc  --network-caching=1000 --sout="#transcode{vcodec=theo,vb=800,scale=1,acodec=none}:http{mux=ogg,dst=:8080/124}" --sout-keep rtsp://admin:admin12345@192.168.7.51:554/Streaming/Channels/101?transportmode=unicast&profile=Profile_1
+
+vlc  --network-caching=1000 --sout="#transcode{vcodec=theo,vb=800,scale=1,acodec=none}:http{mux=ogg,dst=:8081/123}" --sout-keep rtsp://admin:admin12345@192.168.7.51:554/Streaming/Channels/101?transportmode=unicast&profile=Profile_1
